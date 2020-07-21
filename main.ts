@@ -125,34 +125,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.tioletPaper, function (sprite, o
     info.changeScoreBy(1)
     otherSprite.destroy()
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Managers, function (sprite, otherSprite) {
-    otherSprite.destroy()
-    if (karen.y < otherSprite.y) {
-        info.changeScoreBy(1)
-    } else {
-        info.changeLifeBy(-1)
-    }
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (karen.vy == 0) {
-        karen.vy = -150
-    }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.life, function (sprite, otherSprite) {
-    otherSprite.destroy(effects.hearts, 500)
-    info.changeLifeBy(1)
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.taxation, function (sprite, otherSprite) {
-    info.changeScoreBy(-5)
-    otherSprite.destroy()
-})
-scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleRedCrystal, function (sprite, location) {
-    game.over(false, effects.dissolve)
-})
-scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
-    currentLevel += 1
-    startLevel()
-})
 function startLevel () {
     if (currentLevel == 0) {
         tiles.setTilemap(tiles.createTilemap(
@@ -428,7 +400,7 @@ function startLevel () {
             )
         }
         for (let value8 of tiles.getTilesByType(myTiles.tile5)) {
-            life = sprites.create(img`
+            life2 = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
@@ -446,10 +418,10 @@ function startLevel () {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `, SpriteKind.life)
-            tiles.placeOnTile(life, value8)
+            tiles.placeOnTile(life2, value8)
             tiles.setTileAt(value8, myTiles.tile0)
             animation.runImageAnimation(
-            life,
+            life2,
             [img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
@@ -474,7 +446,35 @@ function startLevel () {
         }
     }
 }
-let life: Sprite = null
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Managers, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    if (karen.y < otherSprite.y) {
+        info.changeScoreBy(1)
+    } else {
+        info.changeLifeBy(-1)
+    }
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (karen.vy == 0) {
+        karen.vy = -150
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.life, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.hearts, 500)
+    info.changeLifeBy(1)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.taxation, function (sprite, otherSprite) {
+    info.changeScoreBy(-5)
+    otherSprite.destroy()
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleRedCrystal, function (sprite, location) {
+    game.over(false, effects.dissolve)
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
+    currentLevel += 1
+    startLevel()
+})
+let life2: Sprite = null
 let taxation2: Sprite = null
 let Managers2: Sprite = null
 let toiletpaper: Sprite = null
@@ -752,10 +752,9 @@ f e e f f e e e e f e e e f . .
 })
 forever(function () {
     for (let index = 0; index < 4; index++) {
-        music.playMelody("E B C5 A B G A F ", 120)
+        music.playMelody("C D F D A G C5 B ", 200)
     }
     for (let index = 0; index < 2; index++) {
         music.playMelody("E D G F B A C5 B ", 120)
     }
-    music.playMelody("A F E F D G E F ", 120)
 })
