@@ -3,6 +3,7 @@ namespace SpriteKind {
     export const Managers = SpriteKind.create()
     export const taxation = SpriteKind.create()
     export const PowerUp = SpriteKind.create()
+    export const life = SpriteKind.create()
 }
 namespace myTiles {
     //% blockIdentity=images._tile
@@ -132,16 +133,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Managers, function (sprite, othe
         info.changeLifeBy(-1)
     }
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.PowerUp, function (sprite, otherSprite) {
-    otherSprite.destroy(effects.coolRadial, 500)
-    if (true) {
-        taxation2.destroy(effects.warmRadial, 1000)
-    }
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (karen.vy == 0) {
         karen.vy = -150
     }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.life, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.hearts, 500)
+    info.changeLifeBy(1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.taxation, function (sprite, otherSprite) {
     info.changeScoreBy(-5)
@@ -429,33 +428,56 @@ function startLevel () {
             )
         }
         for (let value8 of tiles.getTilesByType(myTiles.tile5)) {
-            PowerUps = sprites.create(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . f f f f f f f . . . . . . 
-. . f 6 6 6 6 6 6 6 f . . . . . 
-. f 6 6 1 6 6 6 9 6 6 f . . . . 
-. f 6 1 6 6 6 6 9 9 6 f . . . . 
-. f 6 6 6 6 6 6 6 9 6 f . . . . 
-. f 6 6 6 6 6 6 6 6 6 f . . . . 
-. f 6 6 6 6 6 6 6 6 6 f . . . . 
-. f 6 9 9 6 6 6 6 1 6 f . . . . 
-. f 6 6 9 9 6 6 1 6 6 f . . . . 
-. . f 6 6 6 6 6 6 6 f . . . . . 
-. . . f f f f f f f . . . . . . 
+            life = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
-`, SpriteKind.PowerUp)
-            tiles.placeOnTile(PowerUps, value8)
+. . 1 1 1 1 . 1 1 1 1 . . . . . 
+. . 1 3 3 1 . 1 3 3 1 1 . . . . 
+. . 1 3 3 1 1 1 3 3 3 3 1 . . . 
+. . 1 3 3 3 3 3 3 3 3 3 1 . . . 
+. . 1 3 3 3 3 3 3 3 3 3 1 . . . 
+. . 1 1 3 3 3 3 3 3 3 3 1 . . . 
+. . 1 1 1 3 3 3 3 3 3 1 1 . . . 
+. . . . 1 1 3 3 3 3 1 1 . . . . 
+. . . . . 1 1 3 1 1 1 . . . . . 
+. . . . . . 1 1 1 . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, SpriteKind.life)
+            tiles.placeOnTile(life, value8)
             tiles.setTileAt(value8, myTiles.tile0)
+            animation.runImageAnimation(
+            life,
+            [img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. 1 1 1 1 1 . . 1 1 1 . . . . . 
+. 1 3 3 3 1 1 . 1 3 1 1 . . . . 
+. 1 3 3 3 3 1 1 1 3 3 1 1 . . . 
+. 1 3 3 3 3 3 3 3 3 3 3 1 . . . 
+. 1 3 3 3 3 3 3 3 3 3 3 1 . . . 
+. 1 3 3 3 3 3 3 3 3 3 3 1 . . . 
+. 1 1 3 3 3 3 3 3 3 3 3 1 . . . 
+. . 1 3 3 3 3 3 3 3 3 3 1 . . . 
+. . 1 1 3 3 3 3 3 3 3 1 . . . . 
+. . . 1 1 3 3 3 3 3 3 1 . . . . 
+. . . . 1 1 1 1 1 3 1 1 . . . . 
+. . . . . . . . 1 1 1 . . . . . 
+. . . . . . . . . . . . . . . . 
+`],
+            500,
+            true
+            )
         }
     }
 }
-let PowerUps: Sprite = null
+let life: Sprite = null
+let taxation2: Sprite = null
 let Managers2: Sprite = null
 let toiletpaper: Sprite = null
-let taxation2: Sprite = null
 let karen: Sprite = null
 let currentLevel = 0
 scene.setBackgroundColor(9)
@@ -727,4 +749,13 @@ f e e f f e e e e f e e e f . .
         karen.image.flipX()
         karen.setImage(karen.image)
     }
+})
+forever(function () {
+    for (let index = 0; index < 4; index++) {
+        music.playMelody("E B C5 A B G A F ", 120)
+    }
+    for (let index = 0; index < 2; index++) {
+        music.playMelody("E D G F B A C5 B ", 120)
+    }
+    music.playMelody("A F E F D G E F ", 120)
 })
