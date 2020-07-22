@@ -261,6 +261,32 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.tioletPaper, function (sprite, o
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile9, function (sprite, location) {
     game.over(false, effects.dissolve)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Managers, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    if (karen.y < otherSprite.y) {
+        info.changeScoreBy(1)
+    } else {
+        info.changeLifeBy(-1)
+    }
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (karen.vy == 0) {
+        karen.vy = -150
+    }
+    music.playTone(311, music.beat(BeatFraction.Half))
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.life, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.hearts, 500)
+    info.changeLifeBy(1)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.taxation, function (sprite, otherSprite) {
+    info.changeScoreBy(-5)
+    otherSprite.destroy()
+})
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location) {
+    currentLevel += 1
+    startLevel()
+})
 function startLevel () {
     if (currentLevel == 0) {
         tiles.setTilemap(tiles.createTilemap(
@@ -490,7 +516,7 @@ function startLevel () {
     } else if (info.score() <= 0) {
         game.over(false, effects.dissolve)
     } else {
-        game.over(true, effects.confetti)
+    	
     }
     tiles.placeOnRandomTile(karen, myTiles.tile1)
     for (let value of tiles.getTilesByType(myTiles.tile1)) {
@@ -980,32 +1006,6 @@ d d f 8 8 8 8 8 8 f d d .
         }
     }
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Managers, function (sprite, otherSprite) {
-    otherSprite.destroy()
-    if (karen.y < otherSprite.y) {
-        info.changeScoreBy(1)
-    } else {
-        info.changeLifeBy(-1)
-    }
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (karen.vy == 0) {
-        karen.vy = -150
-    }
-    music.playTone(311, music.beat(BeatFraction.Half))
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.life, function (sprite, otherSprite) {
-    otherSprite.destroy(effects.hearts, 500)
-    info.changeLifeBy(1)
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.taxation, function (sprite, otherSprite) {
-    info.changeScoreBy(-5)
-    otherSprite.destroy()
-})
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location) {
-    currentLevel += 1
-    startLevel()
-})
 let life2: Sprite = null
 let taxation2: Sprite = null
 let Managers2: Sprite = null
