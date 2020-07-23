@@ -272,8 +272,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Managers, function (sprite, othe
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (karen.vy == 0) {
         karen.vy = -150
+        music.playTone(311, music.beat(BeatFraction.Half))
     }
-    music.playTone(311, music.beat(BeatFraction.Half))
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.life, function (sprite, otherSprite) {
     otherSprite.destroy(effects.hearts, 500)
