@@ -284,8 +284,11 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Managers, function (sprite, othe
     otherSprite.destroy()
     if (karen.y < otherSprite.y) {
         info.changeScoreBy(1)
+        music.playTone(311, music.beat(BeatFraction.Half))
     } else {
         info.changeLifeBy(-1)
+        scene.cameraShake(7, 500)
+        music.playTone(587, music.beat(BeatFraction.Half))
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -301,6 +304,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.life, function (sprite, otherSpr
 sprites.onOverlap(SpriteKind.Player, SpriteKind.taxation, function (sprite, otherSprite) {
     info.changeScoreBy(-5)
     otherSprite.destroy()
+    scene.cameraShake(6, 500)
+    music.playTone(932, music.beat(BeatFraction.Half))
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location) {
     currentLevel += 1
@@ -1279,6 +1284,7 @@ c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c 
 `)
 game.splash("Welcome to Different Virus")
 game.showLongText("The Different Virus is terrorizing the U.S.A. You are Karen. Your job is to collect as much    toilet paper as possible without getting kicked out by the Managers.    Don't touch the taxation or you lose points. Good  luck Karen! ", DialogLayout.Full)
+game.showLongText("Don't Touch: Taxation (Yellow Coin) , Managers (Purple Character) , and Water.                  Do touch: Toilet Paper                            You can wall jump in this game ", DialogLayout.Full)
 scene.setBackgroundImage(img`
 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
